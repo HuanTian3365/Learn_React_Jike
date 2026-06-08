@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { request } from "@/utils";
 import { createSlice } from "@reduxjs/toolkit";
-import { setToken as _setToken, getToken } from "@/utils";
+import { setToken as _setToken, getToken, removeToken } from "@/utils";
 
 const userStore = createSlice({
   name: "user",
@@ -18,10 +18,15 @@ const userStore = createSlice({
     setUserInfo: (state, action) => {
       state.userInfo = action.payload;
     },
+    clearUserInfo: (state) => {
+      state.token = "";
+      state.userInfo = {};
+      removeToken();
+    },
   },
 });
 
-const { setToken, setUserInfo } = userStore.actions;
+const { setToken, setUserInfo, clearUserInfo } = userStore.actions;
 
 function fetchLogin(loginForm: any) {
   return async (dispatch: any) => {
@@ -37,7 +42,7 @@ function fetchUserInfo() {
   };
 }
 
-export { fetchLogin, setToken, fetchUserInfo };
+export { fetchLogin, setToken, fetchUserInfo, clearUserInfo };
 
 const userReducer = userStore.reducer;
 export default userReducer;
