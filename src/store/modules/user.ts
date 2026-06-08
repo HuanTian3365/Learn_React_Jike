@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { request } from "@/utils";
 import { createSlice } from "@reduxjs/toolkit";
 import { setToken as _setToken, getToken, removeToken } from "@/utils";
+import { loginApi, getProfileApi } from "@/api/user";
 
 const userStore = createSlice({
   name: "user",
@@ -30,14 +30,14 @@ const { setToken, setUserInfo, clearUserInfo } = userStore.actions;
 
 function fetchLogin(loginForm: any) {
   return async (dispatch: any) => {
-    const res = await request.post("/authorizations", loginForm);
+    const res = await loginApi(loginForm);
     dispatch(setToken(res.data.token));
   };
 }
 
 function fetchUserInfo() {
   return async (dispatch: any) => {
-    const res = await request.get("/user/profile");
+    const res = await getProfileApi();
     dispatch(setUserInfo(res.data));
   };
 }
