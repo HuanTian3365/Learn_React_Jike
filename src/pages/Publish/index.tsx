@@ -21,6 +21,7 @@ const { Option } = Select;
 
 const Publish = () => {
   const [channels, setChannels] = useState([]);
+  const [fileList, setFileList] = useState([]);
 
   function onFinish(values: any) {
     console.log(values);
@@ -34,6 +35,11 @@ const Publish = () => {
       channel_id: values.channel_id,
     };
     createArticleApi(reqData);
+  }
+  function onChange(value:any) {
+    console.log(value);
+    setFileList(value.fileList);
+    console.log(fileList);
   }
 
   useEffect(() => {
@@ -81,6 +87,26 @@ const Publish = () => {
                 </Select>
               ))}
             </Select>
+          </Form.Item>
+          <Form.Item label="封面">
+            <Form.Item name="type">
+              <Radio.Group>
+                <Radio value={1}>单图</Radio>
+                <Radio value={3}>三图</Radio>
+                <Radio value={0}>无图</Radio>
+              </Radio.Group>
+            </Form.Item>
+            <Upload
+              listType="picture-card"
+              showUploadList
+              action="https://geek.itheima.net/api/v1_0/upload"
+              name="image"
+              onChange={onChange}
+            >
+              <div style={{ marginTop: 8 }}>
+                <PlusOutlined />
+              </div>
+            </Upload>
           </Form.Item>
           <Form.Item
             label="内容"
