@@ -16,18 +16,19 @@ import { Link } from "react-router-dom";
 import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-import { useEffect, useState } from "react";
-import { createArticleApi, getChannelApi } from "@/api/article";
+import { useState } from "react";
+import { createArticleApi } from "@/api/article";
+import { useChannel } from "@/hooks/useChannel";
 const { Option } = Select;
 
 const Publish = () => {
-  const [channels, setChannels] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [imageType, setImageType] = useState(1);
+  const { channels } = useChannel();
 
   function onFinish(values: any) {
-
-    if(fileList.length !== imageType) return message.warning("封面类型与上传数量不匹配");
+    if (fileList.length !== imageType)
+      return message.warning("封面类型与上传数量不匹配");
 
     const reqData = {
       title: values.title,
@@ -51,14 +52,6 @@ const Publish = () => {
   function onTypeChange(item: any) {
     setImageType(item.target.value);
   }
-
-  useEffect(() => {
-    async function getChannelList() {
-      const res = await getChannelApi();
-      setChannels(res.data.channels);
-    }
-    getChannelList();
-  }, []);
 
   return (
     <div className="publish">

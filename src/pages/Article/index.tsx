@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -10,14 +11,17 @@ import {
 } from "antd";
 import locale from "antd/es/date-picker/locale/zh_CN";
 // 导入资源
-import { Table, Tag, Space } from 'antd'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import img404 from '@/assets/error.png'
+import { Table, Tag, Space } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import img404 from "@/assets/error.png";
+import { useChannel } from "@/hooks/useChannel";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const Article = () => {
+  const { channels } = useChannel();
+
   // 准备列数据
   const columns = [
     {
@@ -116,8 +120,11 @@ const Article = () => {
               defaultValue="lucy"
               style={{ width: 120 }}
             >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
+              {channels.map((item: any) => (
+                <Select key={item.id} value={item.id}>
+                  {item.name}
+                </Select>
+              ))}
             </Select>
           </Form.Item>
 
@@ -139,6 +146,6 @@ const Article = () => {
       </Card>
     </div>
   );
-};;
+};
 
 export default Article;
