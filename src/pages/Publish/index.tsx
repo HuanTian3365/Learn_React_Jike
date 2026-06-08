@@ -22,6 +22,7 @@ const { Option } = Select;
 const Publish = () => {
   const [channels, setChannels] = useState([]);
   const [fileList, setFileList] = useState([]);
+  const [imageType, setImageType] = useState(1);
 
   function onFinish(values: any) {
     console.log(values);
@@ -36,10 +37,15 @@ const Publish = () => {
     };
     createArticleApi(reqData);
   }
-  function onChange(value:any) {
+
+  function onChange(value: any) {
     console.log(value);
     setFileList(value.fileList);
     console.log(fileList);
+  }
+
+  function onTypeChange(item: any) {
+    setImageType(item.target.value);
   }
 
   useEffect(() => {
@@ -65,7 +71,7 @@ const Publish = () => {
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
-          initialValues={{ type: 1 }}
+          initialValues={{ type: imageType }}
           onFinish={onFinish}
         >
           <Form.Item
@@ -90,23 +96,25 @@ const Publish = () => {
           </Form.Item>
           <Form.Item label="封面">
             <Form.Item name="type">
-              <Radio.Group>
+              <Radio.Group onChange={onTypeChange}>
                 <Radio value={1}>单图</Radio>
                 <Radio value={3}>三图</Radio>
                 <Radio value={0}>无图</Radio>
               </Radio.Group>
             </Form.Item>
-            <Upload
-              listType="picture-card"
-              showUploadList
-              action="https://geek.itheima.net/api/v1_0/upload"
-              name="image"
-              onChange={onChange}
-            >
-              <div style={{ marginTop: 8 }}>
-                <PlusOutlined />
-              </div>
-            </Upload>
+            {imageType > 0 && (
+              <Upload
+                listType="picture-card"
+                showUploadList
+                action="https://geek.itheima.net/api/v1_0/upload"
+                name="image"
+                onChange={onChange}
+              >
+                <div style={{ marginTop: 8 }}>
+                  <PlusOutlined />
+                </div>
+              </Upload>
+            )}
           </Form.Item>
           <Form.Item
             label="内容"
