@@ -1,17 +1,20 @@
 import "./index.scss";
 import { Card, Form, Input, Button } from "antd";
 import logo from "@/assets/logo.png";
+import { useDispatch } from "react-redux";
+import { fetchLogin } from "@/store/modules/user";
 
 export default function Login() {
+  const dispatch = useDispatch();
   function onFinish(values: any) {
-    console.log(values);
+    dispatch(fetchLogin(values));
   }
   return (
     <div className="login">
       <Card className="login-container">
         <img className="login-logo" src={logo} alt="" />
         {/* 登录表单 */}
-        <Form validateTrigger="onBlur" onFinish={onFinish}>
+        <Form validateTrigger="onBlur" onFinish={onFinish} initialValues={{ mobile: "13800000002", code: "246810" }}>
           <Form.Item
             name="mobile"
             rules={[
@@ -19,7 +22,10 @@ export default function Login() {
               { pattern: /^1[3-9]\d{9}$/, message: "手机号格式不正确" },
             ]}
           >
-            <Input size="large" placeholder="请输入手机号" />
+            <Input
+              size="large"
+              placeholder="请输入手机号"
+            />
           </Form.Item>
           <Form.Item
             name="code"
