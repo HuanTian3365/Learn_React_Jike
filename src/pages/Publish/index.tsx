@@ -16,11 +16,25 @@ import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { useEffect, useState } from "react";
-import { getChannelApi } from "@/api/article";
+import { createArticleApi, getChannelApi } from "@/api/article";
 const { Option } = Select;
 
 const Publish = () => {
   const [channels, setChannels] = useState([]);
+
+  function onFinish(values: any) {
+    console.log(values);
+    const reqData = {
+      title: values.title,
+      content: values.content,
+      cover: {
+        type: 0,
+        images: [],
+      },
+      channel_id: values.channel_id,
+    };
+    createArticleApi(reqData);
+  }
 
   useEffect(() => {
     async function getChannelList() {
@@ -46,6 +60,7 @@ const Publish = () => {
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
           initialValues={{ type: 1 }}
+          onFinish={onFinish}
         >
           <Form.Item
             label="标题"
