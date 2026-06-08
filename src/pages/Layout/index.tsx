@@ -11,7 +11,6 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { fetchUserInfo,clearUserInfo } from "@/store/modules/user";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeToken } from "@/utils";
 
 const { Header, Sider } = Layout;
 
