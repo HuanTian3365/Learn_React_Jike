@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Layout, Menu, Popconfirm } from "antd";
 import {
   HomeOutlined,
@@ -6,7 +7,10 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import "./index.scss";
-import { Outlet, useNavigate,useLocation } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { fetchUserInfo } from "@/store/modules/user";
+import { useEffect } from "react";
+import { useDispatch,useSelector } from "react-redux";
 
 const { Header, Sider } = Layout;
 
@@ -30,17 +34,25 @@ const items = [
 
 const GeekLayout = () => {
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  const name = useSelector((state: any) => state.user.userInfo.name);
+
   function clickMenu(e: any) {
     navigate(e.key);
   }
+
+  useEffect(() => {
+    dispatch(fetchUserInfo());
+  }, [dispatch]);
 
   return (
     <Layout>
       <Header className="header">
         <div className="logo" />
         <div className="user-info">
-          <span className="user-name">柴柴老师</span>
+          <span className="user-name">{name||"Admin"}</span>
           <span className="user-logout">
             <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消">
               <LogoutOutlined /> 退出

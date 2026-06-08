@@ -7,6 +7,7 @@ const userStore = createSlice({
   name: "user",
   initialState: {
     token: getToken() || "",
+    userInfo: {},
   },
   reducers: {
     setToken: (state, action) => {
@@ -14,10 +15,13 @@ const userStore = createSlice({
       _setToken(action.payload);
       console.log(action.payload);
     },
+    setUserInfo: (state, action) => {
+      state.userInfo = action.payload;
+    },
   },
 });
 
-export const { setToken } = userStore.actions;
+const { setToken, setUserInfo } = userStore.actions;
 
 function fetchLogin(loginForm: any) {
   return async (dispatch: any) => {
@@ -25,7 +29,15 @@ function fetchLogin(loginForm: any) {
     dispatch(setToken(res.data.token));
   };
 }
-export { fetchLogin };
+
+function fetchUserInfo() {
+  return async (dispatch: any) => {
+    const res = await request.get("/user/profile");
+    dispatch(setUserInfo(res.data));
+  };
+}
+
+export { fetchLogin, setToken, fetchUserInfo };
 
 const userReducer = userStore.reducer;
 export default userReducer;
