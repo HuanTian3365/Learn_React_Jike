@@ -7,6 +7,8 @@ import {
 } from "@ant-design/icons";
 import "./index.scss";
 
+import { Outlet } from "react-router-dom";
+
 const { Header, Sider } = Layout;
 
 const items = [
@@ -52,7 +54,7 @@ const GeekLayout = () => {
           ></Menu>
         </Sider>
         <Layout className="layout-content" style={{ padding: 20 }}>
-          内容
+          <Outlet />
         </Layout>
       </Layout>
     </Layout>
