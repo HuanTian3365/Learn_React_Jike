@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getToken } from "./token";
 
 export const request = axios.create({
   baseURL: "/api/v1_0",
@@ -8,6 +9,10 @@ export const request = axios.create({
 // 添加请求拦截器
 request.interceptors.request.use(
   (config) => {
+    const token = getToken();
+    if(token){
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
