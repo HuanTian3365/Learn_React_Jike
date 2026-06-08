@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "@/pages/Login";
-import Layout from "@/pages/Layout";
+import GeekLayout from "@/pages/Layout";
 import AuthRouter from "@/components/AuthRoute";
 
 const router = createBrowserRouter([
@@ -8,7 +8,7 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <AuthRouter>
-        <Layout />
+        <GeekLayout />
       </AuthRouter>
     ),
     children: [],
