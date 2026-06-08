@@ -9,6 +9,7 @@ import {
   Upload,
   Space,
   Select,
+  message,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -25,16 +26,19 @@ const Publish = () => {
   const [imageType, setImageType] = useState(1);
 
   function onFinish(values: any) {
-    console.log(values);
+
+    if(fileList.length !== imageType) return message.warning("封面类型与上传数量不匹配");
+
     const reqData = {
       title: values.title,
       content: values.content,
       cover: {
-        type: 0,
-        images: [],
+        type: imageType,
+        images: fileList.map((item: any) => item.response.data.url),
       },
       channel_id: values.channel_id,
     };
+    console.log(reqData);
     createArticleApi(reqData);
   }
 
