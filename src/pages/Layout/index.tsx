@@ -6,7 +6,7 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import "./index.scss";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate,useLocation } from "react-router-dom";
 
 const { Header, Sider } = Layout;
 
@@ -30,6 +30,7 @@ const items = [
 
 const GeekLayout = () => {
   const navigate = useNavigate();
+  const location = useLocation()
   function clickMenu(e: any) {
     navigate(e.key);
   }
@@ -52,7 +53,7 @@ const GeekLayout = () => {
           <Menu
             mode="inline"
             theme="dark"
-            defaultSelectedKeys={["/"]}
+            defaultSelectedKeys={[location.pathname]}
             items={items}
             onClick={clickMenu}
             style={{ height: "100%", borderRight: 0 }}
