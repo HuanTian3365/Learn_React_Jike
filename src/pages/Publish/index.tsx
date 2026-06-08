@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Card,
   Breadcrumb,
@@ -14,9 +15,21 @@ import { Link } from "react-router-dom";
 import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import { useEffect, useState } from "react";
+import { getChannelApi } from "@/api/article";
 const { Option } = Select;
 
 const Publish = () => {
+  const [channels, setChannels] = useState([]);
+
+  useEffect(() => {
+    async function getChannelList() {
+      const res = await getChannelApi();
+      setChannels(res.data.channels);
+    }
+    getChannelList();
+  }, []);
+
   return (
     <div className="publish">
       <Card
@@ -47,7 +60,11 @@ const Publish = () => {
             rules={[{ required: true, message: "请选择文章频道" }]}
           >
             <Select placeholder="请选择文章频道" style={{ width: 400 }}>
-              <Select value={0}>推荐</Select>
+              {channels.map((item: any) => (
+                <Select key={item.id} value={item.id}>
+                  {item.name}
+                </Select>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item
