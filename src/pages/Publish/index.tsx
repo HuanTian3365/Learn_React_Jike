@@ -62,7 +62,18 @@ const Publish = () => {
     async function getArticle() {
       const res = await getArticleDetailApi(id);
       console.log(res.data);
-      form.setFieldsValue(res.data);
+      setImageType(res.data.cover.type);
+      setFileList(
+        res.data.cover.images.map((url) => {
+          return { url };
+        }),
+      );
+      console.log(
+        res.data.cover.images.map((url) => {
+          return { url };
+        }),
+      );
+      form.setFieldsValue({ ...res.data, type: res.data.cover.type });
     }
     getArticle();
   }, [id, form]);
@@ -122,6 +133,7 @@ const Publish = () => {
                 name="image"
                 onChange={onChange}
                 maxCount={imageType}
+                fileList={fileList}
               >
                 <div style={{ marginTop: 8 }}>
                   <PlusOutlined />
