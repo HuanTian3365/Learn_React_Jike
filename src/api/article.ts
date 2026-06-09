@@ -42,3 +42,12 @@ export function getArticleDetailApi(id: string) {
     method: "GET",
   });
 }
+
+// 修改文章
+export function updateArticleApi(id: string, formData: any) {
+  return request({
+    url: `/mp/articles/${id}`,
+    method: "PUT",
+    data: formData,
+  });
+}

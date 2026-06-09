@@ -17,7 +17,7 @@ import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { useEffect, useState } from "react";
-import { createArticleApi, getArticleDetailApi } from "@/api/article";
+import { createArticleApi, getArticleDetailApi, updateArticleApi } from "@/api/article";
 import { useChannel } from "@/hooks/useChannel";
 const { Option } = Select;
 
@@ -35,12 +35,22 @@ const Publish = () => {
       content: values.content,
       cover: {
         type: imageType,
-        images: fileList.map((item: any) => item.response.data.url),
+        // 新增逻辑
+        images: fileList.map((item: any) => {
+          if (item.response) {
+            return item.response.data.url;
+          } else {
+            return item.url;
+          }
+        }),
       },
       channel_id: values.channel_id,
     };
-    console.log(reqData);
+    if (id) {
+      updateArticleApi(id, reqData)
+    } else {
     createArticleApi(reqData);
+    }
   }
 
   function onChange(value: any) {
@@ -74,7 +84,7 @@ const Publish = () => {
       );
       form.setFieldsValue({ ...res.data, type: res.data.cover.type });
     }
-    id&&getArticle();
+    id && getArticle();
   }, [id, form]);
 
   return (
