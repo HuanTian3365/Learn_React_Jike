@@ -12,12 +12,12 @@ import {
   message,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-import { useState } from "react";
-import { createArticleApi } from "@/api/article";
+import { useEffect, useState } from "react";
+import { createArticleApi, getArticleDetailApi } from "@/api/article";
 import { useChannel } from "@/hooks/useChannel";
 const { Option } = Select;
 
@@ -53,6 +53,20 @@ const Publish = () => {
     setImageType(item.target.value);
   }
 
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
+
+  const [form] = Form.useForm();
+  // 回填数据
+  useEffect(() => {
+    async function getArticle() {
+      const res = await getArticleDetailApi(id);
+      console.log(res.data);
+      form.setFieldsValue(res.data);
+    }
+    getArticle();
+  }, [id, form]);
+
   return (
     <div className="publish">
       <Card
@@ -66,6 +80,7 @@ const Publish = () => {
         }
       >
         <Form
+          form={form}
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
           initialValues={{ type: imageType }}
@@ -85,9 +100,9 @@ const Publish = () => {
           >
             <Select placeholder="请选择文章频道" style={{ width: 400 }}>
               {channels.map((item: any) => (
-                <Select key={item.id} value={item.id}>
+                <Select.Option key={item.id} value={item.id}>
                   {item.name}
-                </Select>
+                </Select.Option>
               ))}
             </Select>
           </Form.Item>

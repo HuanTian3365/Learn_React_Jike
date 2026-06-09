@@ -34,3 +34,11 @@ export function deleteArticleApi(id: string) {
     method: "DELETE",
   });
 }
+
+// 获取文章详情
+export function getArticleDetailApi(id: string) {
+  return request({
+    url: `/mp/articles/${id}`,
+    method: "GET",
+  });
+}
