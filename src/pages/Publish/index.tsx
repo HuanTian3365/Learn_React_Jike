@@ -61,7 +61,6 @@ const Publish = () => {
   useEffect(() => {
     async function getArticle() {
       const res = await getArticleDetailApi(id);
-      console.log(res.data);
       setImageType(res.data.cover.type);
       setFileList(
         res.data.cover.images.map((url) => {
@@ -75,7 +74,7 @@ const Publish = () => {
       );
       form.setFieldsValue({ ...res.data, type: res.data.cover.type });
     }
-    getArticle();
+    id&&getArticle();
   }, [id, form]);
 
   return (
@@ -85,7 +84,7 @@ const Publish = () => {
           <Breadcrumb
             items={[
               { title: <Link to={"/"}>首页</Link> },
-              { title: "发布文章" },
+              { title: `${id ? "编辑" : "发布"}文章` },
             ]}
           />
         }
