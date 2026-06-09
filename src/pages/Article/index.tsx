@@ -106,6 +106,14 @@ const Article = () => {
     } as any);
   }
 
+  function onPageChange(e: any) {
+    console.log(e);
+    setParams({
+      ...params,
+        page: e.current,
+    });
+  }
+
   // 获取文章列表
   useEffect(() => {
     async function getArticleList() {
@@ -162,7 +170,16 @@ const Article = () => {
       </Card>
       {/* 表格区域 */}
       <Card title={`根据筛选条件共查询到 ${count} 条结果：`}>
-        <Table rowKey="id" columns={columns} dataSource={list} />
+        <Table
+          rowKey="id"
+          columns={columns}
+          dataSource={list}
+          pagination={{
+            total: count,
+            pageSize: params.per_page,
+          }}
+          onChange={onPageChange}
+        />
       </Card>
     </div>
   );
