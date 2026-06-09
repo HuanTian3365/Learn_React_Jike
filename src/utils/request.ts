@@ -3,7 +3,7 @@ import { getToken, removeToken } from "./token";
 import router from "@/router";
 
 export const request = axios.create({
-  baseURL: "/api/v1_0",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 5000,
 });
 

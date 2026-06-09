@@ -171,9 +171,9 @@ const Article = () => {
           <Form.Item label="频道" name="channel_id">
             <Select placeholder="请选择文章频道" style={{ width: 120 }}>
               {channels.map((item: any) => (
-                <Select key={item.id} value={item.id}>
+                <Option key={item.id} value={item.id}>
                   {item.name}
-                </Select>
+                </Option>
               ))}
             </Select>
           </Form.Item>
