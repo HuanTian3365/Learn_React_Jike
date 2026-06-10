@@ -16,7 +16,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': {
+      "/api": {
         target: "https://geek.itheima.net",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
@@ -46,4 +46,5 @@ export default defineConfig({
       filename: "stats.html",
     }),
   ],
+  base: "Learn_React_Jike",
 });
