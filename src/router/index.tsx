@@ -8,45 +8,50 @@ const Home = lazy(() => import("@/pages/Home"));
 const Article = lazy(() => import("@/pages/Article"));
 const Publish = lazy(() => import("@/pages/Publish"));
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: (
+        <AuthRouter>
+          <GeekLayout />
+        </AuthRouter>
+      ),
+      children: [
+        {
+          path: "/",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <Home />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/article",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <Article />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/publish",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <Publish />
+            </Suspense>
+          ),
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <Login />,
+      children: [],
+    },
+  ],
   {
-    path: "/",
-    element: (
-      <AuthRouter>
-        <GeekLayout />
-      </AuthRouter>
-    ),
-    children: [
-      {
-        path: "/",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Home />
-          </Suspense>
-        ),
-      },
-      {
-        path: "/article",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Article />
-          </Suspense>
-        ),
-      },
-      {
-        path: "/publish",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Publish />
-          </Suspense>
-        ),
-      },
-    ],
+    basename: "/Learn_React_Jike",
   },
-  {
-    path: "/login",
-    element: <Login />,
-    children: [],
-  },
-]);
+);
 export default router;
